@@ -1,11 +1,11 @@
 /**
  * STUDENT PERFORMANCE MANAGEMENT SYSTEM
  * Semester GPA Calculator
- * 
+ *
  * Author: Okiror Innocent
  * EMPLOYMENT: COMPUTER SCIENCE STUDENT
  * Institution: Mbarara University of Science and Technology (MUST)
- * Description: Lightweight command-line tool to calculate semester GPA based on 
+ * Description: Lightweight command-line tool to calculate semester GPA based on
  *               the university grading scale (5.0 Max GP scale).
  */
 
@@ -19,7 +19,8 @@
 #define BUFFER_SIZE 256
 
 /* Represents an academic course module */
-typedef struct {
+typedef struct
+{
     char code[MAX_CODE_LEN];
     int credits;
     float score;
@@ -34,7 +35,8 @@ int get_valid_int(const char *prompt, int min_val);
 void calculate_grade_point(float score, float *gp, char *letter);
 void to_upper_string(char *str);
 
-int main(void) {
+int main(void)
+{
     printf("=====================================================\n");
     printf(" UNIVERSITY SEMESTER ACADEMIC PERFORMANCE CALCULATOR\n");
     printf("=====================================================\n\n");
@@ -46,7 +48,8 @@ int main(void) {
 
     /* Dynamically allocate memory for the courses based on user input */
     Course *courses = (Course *)malloc(course_count * sizeof(Course));
-    if (courses == NULL) {
+    if (courses == NULL)
+    {
         fprintf(stderr, "[!] Memory allocation failed. Exiting...\n");
         return EXIT_FAILURE;
     }
@@ -55,7 +58,8 @@ int main(void) {
     float total_weighted_points = 0.0f;
 
     /* Collect information for each course module */
-    for (int i = 0; i < course_count; i++) {
+    for (int i = 0; i < course_count; i++)
+    {
         printf("\n--- Course %d Entry ---\n", i + 1);
 
         get_valid_string("Course Code (e.g., CS1101): ", courses[i].code, sizeof(courses[i].code));
@@ -85,7 +89,8 @@ int main(void) {
     printf("%-10s | %-8s | %-10s | %-6s | GP\n", "CODE", "CREDITS", "SCORE", "GRADE");
     printf("------------------------------------------------------------\n");
 
-    for (int i = 0; i < course_count; i++) {
+    for (int i = 0; i < course_count; i++)
+    {
         printf("%-10s | %-8d | %-10.1f | %-6s | %.1f\n",
                courses[i].code,
                courses[i].credits,
@@ -109,12 +114,15 @@ int main(void) {
 /**
  * Prompts for input and guarantees a non-empty, trimmed string response.
  */
-void get_valid_string(const char *prompt, char *output, size_t max_size) {
+void get_valid_string(const char *prompt, char *output, size_t max_size)
+{
     char buffer[BUFFER_SIZE];
 
-    while (1) {
+    while (1)
+    {
         printf("%s", prompt);
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+        {
             printf("\n[!] Input stream interrupted. Exiting...\n");
             exit(EXIT_FAILURE);
         }
@@ -124,12 +132,14 @@ void get_valid_string(const char *prompt, char *output, size_t max_size) {
 
         /* Trim leading whitespace */
         char *start = buffer;
-        while (isspace((unsigned char)*start)) {
+        while (isspace((unsigned char)*start))
+        {
             start++;
         }
 
         /* Verify that string is non-empty after trimming */
-        if (*start != '\0') {
+        if (*start != '\0')
+        {
             strncpy(output, start, max_size - 1);
             output[max_size - 1] = '\0'; /* Ensure string termination */
             return;
@@ -142,25 +152,32 @@ void get_valid_string(const char *prompt, char *output, size_t max_size) {
 /**
  * Prompts for a floating-point number and validates its bounds.
  */
-float get_valid_float(const char *prompt, float min_val, float max_val) {
+float get_valid_float(const char *prompt, float min_val, float max_val)
+{
     char buffer[BUFFER_SIZE];
     float value;
     char extra;
 
-    while (1) {
+    while (1)
+    {
         printf("%s", prompt);
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+        {
             printf("\n[!] Input stream interrupted. Exiting...\n");
             exit(EXIT_FAILURE);
         }
 
         /* Ensure input contains valid float data and no trailing non-space characters */
-        if (sscanf(buffer, "%f %c", &value, &extra) == 1) {
-            if (value >= min_val && value <= max_val) {
+        if (sscanf(buffer, "%f %c", &value, &extra) == 1)
+        {
+            if (value >= min_val && value <= max_val)
+            {
                 return value;
             }
             printf("[!] Input must be between %.1f and %.1f.\n", min_val, max_val);
-        } else {
+        }
+        else
+        {
             printf("[!] Invalid input. Please enter a valid number.\n");
         }
     }
@@ -169,25 +186,32 @@ float get_valid_float(const char *prompt, float min_val, float max_val) {
 /**
  * Prompts for an integer and ensures it meets a minimum value threshold.
  */
-int get_valid_int(const char *prompt, int min_val) {
+int get_valid_int(const char *prompt, int min_val)
+{
     char buffer[BUFFER_SIZE];
     int value;
     char extra;
 
-    while (1) {
+    while (1)
+    {
         printf("%s", prompt);
-        if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
+        if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+        {
             printf("\n[!] Input stream interrupted. Exiting...\n");
             exit(EXIT_FAILURE);
         }
 
         /* Validate integer type input without trailing non-space chars */
-        if (sscanf(buffer, "%d %c", &value, &extra) == 1) {
-            if (value >= min_val) {
+        if (sscanf(buffer, "%d %c", &value, &extra) == 1)
+        {
+            if (value >= min_val)
+            {
                 return value;
             }
             printf("[!] Number must be at least %d.\n", min_val);
-        } else {
+        }
+        else
+        {
             printf("[!] Invalid input. Please enter a whole integer.\n");
         }
     }
@@ -196,22 +220,57 @@ int get_valid_int(const char *prompt, int min_val) {
 /**
  * Translates a raw percentage score into Grade Points (0.0 to 5.0 scale) and Letter Grades.
  */
-void calculate_grade_point(float score, float *gp, char *letter) {
-    if (score >= 80.0f)      { *gp = 5.0f; strcpy(letter, "A");  }
-    else if (score >= 75.0f) { *gp = 4.5f; strcpy(letter, "B+"); }
-    else if (score >= 70.0f) { *gp = 4.0f; strcpy(letter, "B");  }
-    else if (score >= 65.0f) { *gp = 3.5f; strcpy(letter, "C+"); }
-    else if (score >= 60.0f) { *gp = 3.0f; strcpy(letter, "C");  }
-    else if (score >= 55.0f) { *gp = 2.5f; strcpy(letter, "D+"); }
-    else if (score >= 50.0f) { *gp = 2.0f; strcpy(letter, "D");  }
-    else                     { *gp = 0.0f; strcpy(letter, "F");  }
+void calculate_grade_point(float score, float *gp, char *letter)
+{
+    if (score >= 80.0f)
+    {
+        *gp = 5.0f;
+        strcpy(letter, "A");
+    }
+    else if (score >= 75.0f)
+    {
+        *gp = 4.5f;
+        strcpy(letter, "B+");
+    }
+    else if (score >= 70.0f)
+    {
+        *gp = 4.0f;
+        strcpy(letter, "B");
+    }
+    else if (score >= 65.0f)
+    {
+        *gp = 3.5f;
+        strcpy(letter, "C+");
+    }
+    else if (score >= 60.0f)
+    {
+        *gp = 3.0f;
+        strcpy(letter, "C");
+    }
+    else if (score >= 55.0f)
+    {
+        *gp = 2.5f;
+        strcpy(letter, "D+");
+    }
+    else if (score >= 50.0f)
+    {
+        *gp = 2.0f;
+        strcpy(letter, "D");
+    }
+    else
+    {
+        *gp = 0.0f;
+        strcpy(letter, "F");
+    }
 }
 
 /**
  * Helper function to convert a null-terminated string to uppercase in place.
  */
-void to_upper_string(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
+void to_upper_string(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
         str[i] = (char)toupper((unsigned char)str[i]);
     }
 }
