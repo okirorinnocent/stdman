@@ -5,8 +5,8 @@
  * Author: Okiror Innocent
  * EMPLOYMENT: COMPUTER SCIENCE STUDENT
  * Institution: Mbarara University of Science and Technology (MUST)
- * Description: Lightweight command-line tool to calculate semester GPA based on
- *               the university grading scale (5.0 Max GP scale).
+ * Description: Lightweight tool to calculate semester GPA based on
+ *               the university grading scale .
  */
 
 #include <stdio.h>
@@ -37,9 +37,8 @@ void to_upper_string(char *str);
 
 int main(void)
 {
-    printf("=====================================================\n");
+
     printf(" UNIVERSITY SEMESTER ACADEMIC PERFORMANCE CALCULATOR\n");
-    printf("=====================================================\n\n");
 
     char student_name[MAX_NAME_LEN];
     get_valid_string("Enter Student Full Name: ", student_name, sizeof(student_name));
@@ -83,11 +82,10 @@ int main(void)
     to_upper_string(student_name);
 
     /* Output formatted academic transcript summary */
-    printf("\n============================================================\n");
-    printf("ACADEMIC SUMMARY FOR: %s\n", student_name);
-    printf("============================================================\n");
+
+    printf("ACADEMIC PERFORMANCE FOR: %s\n", student_name);
+
     printf("%-10s | %-8s | %-10s | %-6s | GP\n", "CODE", "CREDITS", "SCORE", "GRADE");
-    printf("------------------------------------------------------------\n");
 
     for (int i = 0; i < course_count; i++)
     {
@@ -99,10 +97,8 @@ int main(void)
                courses[i].gp);
     }
 
-    printf("------------------------------------------------------------\n");
     printf("Total Credit Units : %d\n", total_credit_units);
     printf("Semester GPA       : %.2f/5.00\n", gpa);
-    printf("============================================================\n");
 
     /* Free dynamically allocated array */
     free(courses);
