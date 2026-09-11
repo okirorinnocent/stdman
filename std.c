@@ -26,7 +26,9 @@ typedef struct
     float score;
     float gp;
     char letter[3]; /* Accommodates 2-character grades like "B+" plus null terminator */
-} Course;
+}
+
+Course;
 
 /* Function prototypes */
 void get_valid_string(const char *prompt, char *output, size_t max_size);
